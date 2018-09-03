@@ -23,17 +23,20 @@ db.once('open', function() {
     console.log(myRes);
     res.send(myRes);
   })
-  /*  app.get('/api/users/:id', async (req, res) => {
-    let myRes1 = await Users.find();
-    const user = myRes1.find(function(user) {
-      console.log('1111', req.params.id);
-       if (req.params.id === myRes1.id) {
-        res.send(myRes1);
+  app.get('/api/users/:id', async (req, res) => {
+    // console.log('req', req);
+    const id = req.params.id;
+    try {
+      let myRes1 = await Users.find({ id });
+      if (myRes1.length === 0) {
+        res.send('not found');
       } else {
-        res.send('Not found');
+        res.send(myRes1[0]);
       }
-    })
-  })*/
+    } catch (e) {
+      console.log('error', e);
+    }
+  }) 
 })
 
 app.listen(config.port, err => {
